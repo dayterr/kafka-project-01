@@ -8,7 +8,7 @@ from utils import delivery_report, Message, MessageSerializer, TOPIC_NAME
 logger = logging.getLogger(__name__)
 
 conf = {
-    "bootstrap.servers": "127.0.0.1:9094",
+    "bootstrap.servers": "127.0.0.1:9094,127.0.0.1:9095,127.0.0.1:9096",
     "acks": "all",
     "retries": 5, 
 } 

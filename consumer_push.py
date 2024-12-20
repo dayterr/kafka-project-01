@@ -9,7 +9,7 @@ logger.info('push consumer started')
 
 conf = {
     "group.id": GROUP_ID,
-    "bootstrap.servers": "127.0.0.1:9094",
+    "bootstrap.servers": "127.0.0.1:9094,127.0.0.1:9095,127.0.0.1:9096",
     "auto.offset.reset": "earliest",
     "enable.auto.commit": "false",
     "fetch.min.bytes": 1024,

@@ -1,6 +1,12 @@
+import logging
+
 from confluent_kafka.serialization import Deserializer, Serializer
 
 TOPIC_NAME = 'test-topic'
+GROUP_ID = 'test-group'
+
+logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO)
 
 
 class Message:
@@ -27,16 +33,16 @@ class MessageSerializer(Serializer):
         result += text_size.to_bytes(4, byteorder='big')
         result += text_bytes
 
-        print('message serizlized:', result)
+        logging.info(f'message serialized: {result}')
 
         return result
-    
+
 
 class MessageDeserializer(Deserializer):
     """
     Класс, используемый для десериализации сообщений типа Message
     """
-    def __call__(self, value: bytes, ctx: None):
+    def __call__(self, value: bytes):
         if value is None:
             return None
         
@@ -55,6 +61,6 @@ class MessageDeserializer(Deserializer):
 
 def delivery_report(err, msg):
     if err is not None:
-        print(f'error when sending: {err}')
+        logging.error(f'error when sending: {err}')
     else:
-        print(f'message sent to {TOPIC_NAME}')
+        logging.info(f'message sent to {TOPIC_NAME}')

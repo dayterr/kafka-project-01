@@ -1,16 +1,21 @@
+import logging
+
 from confluent_kafka import Consumer
 
-from utils import TOPIC_NAME, MessageDeserializer
+from utils import GROUP_ID, TOPIC_NAME, MessageDeserializer
+
+logger = logging.getLogger(__name__)
+logger.info('pull consumer started')
 
 conf = {
-    "bootstrap.servers": "localhost:9092",
+    "group.id": GROUP_ID,
+    "bootstrap.servers": "127.0.0.1:9094",
     "auto.offset.reset": "earliest",
+    "enable.auto.commit": "true",
+    "fetch.min.bytes": 1024,
 }
 
-consumer = Consumer(conf,
-                    enable_auto_commit=True,
-                    fetch_min_bytes=1024
-                    )
+consumer = Consumer(conf)
 
 consumer.subscribe([TOPIC_NAME])
 
@@ -23,14 +28,14 @@ try:
         if msg is None:
             continue
         if msg.error():
-            print(f'получена ошибка: {msg.error()}')
+            logger.error(f'получена ошибка: {msg.error()}')
             continue
 
-        msg = deserializer(msg)
-        print(f'полученое сообщение: {msg.text} с заголовком {msg.header}')
+        msg = deserializer(msg.value())
+        logger.info(f'полученое сообщение: {msg.text} с заголовком {msg.header}')
 
 except Exception as e:
-    print(f'поймана ошибка: {e}')
+    logger.error(f'поймана ошибка: {e}')
 
 finally:
     consumer.close()

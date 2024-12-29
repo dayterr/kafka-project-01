@@ -4,6 +4,7 @@ from confluent_kafka.serialization import Deserializer, Serializer
 
 TOPIC_NAME = 'test-topic'
 GROUP_ID = 'test-group'
+GROUP_ID_2 = 'test-group-2'
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)

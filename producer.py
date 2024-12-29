@@ -1,4 +1,5 @@
 import logging
+from random import randint
 import time
 
 from confluent_kafka import Producer
@@ -16,10 +17,10 @@ conf = {
 logger.info('producer started')
 
 producer = Producer(conf)
-message = Message('some header', 'some message')
 serializer = MessageSerializer()
 
 while True:
+    message = Message('some header', 'some message ' + str(randint(0, 100)))
     producer.produce(topic=TOPIC_NAME, value=serializer(message), callback=delivery_report)
     producer.flush()
     logger.info('message sent')

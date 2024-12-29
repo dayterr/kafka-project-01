@@ -2,13 +2,13 @@ import logging
 
 from confluent_kafka import Consumer
 
-from utils import GROUP_ID, TOPIC_NAME, MessageDeserializer
+from utils import GROUP_ID_2, TOPIC_NAME, MessageDeserializer
 
 logger = logging.getLogger(__name__)
 logger.info('push consumer started')
 
 conf = {
-    "group.id": GROUP_ID,
+    "group.id": GROUP_ID_2,
     "bootstrap.servers": "127.0.0.1:9094,127.0.0.1:9095,127.0.0.1:9096",
     "auto.offset.reset": "earliest",
     "enable.auto.commit": "false",
